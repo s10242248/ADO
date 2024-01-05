@@ -1,5 +1,9 @@
-{{ config (materialized='table')}}
+{{ config(materialized='incremental', unique_key='ORDERID') }}
 
-Select *
-from {{ source('PRICESMART', 'ORDERS') }}
+SELECT *
+FROM {{ ref ('fresh_orders') }}
+{% if is_incremental() %}
+WHERE CAST(ORDERID AS BIGINT) > (SELECT MAX(CAST(ORDERID AS BIGINT))  FROM {{this}})
+{% endif %}
+
 
