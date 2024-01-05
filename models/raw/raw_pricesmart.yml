@@ -21,6 +21,12 @@ models:
                 - 'Same Day'
                 - 'Second Class'
                 - 'Standard Class'
+  - name: fresh_orders
+    columns:
+      - name: orderid
+        tests:
+          - unique
+          - not null
       
 
 
